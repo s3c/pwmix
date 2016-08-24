@@ -1,3 +1,3 @@
 (fp_lib_table
-  (lib (name Desktop)(type KiCad)(uri C:\Users\Mynie\Desktop)(options "")(descr ""))
+  (lib (name extra)(type KiCad)(uri "$(KIPRJMOD)/extra")(options "")(descr ""))
 )

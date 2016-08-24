@@ -28,7 +28,7 @@ LIBS:opto
 LIBS:atmel
 LIBS:contrib
 LIBS:valves
-LIBS:ppmix-cache
+LIBS:pwmix-cache
 EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
@@ -49,7 +49,7 @@ U 1 1 57B84D30
 P 4850 1250
 F 0 "IC1" H 3700 1650 50  0000 C CNN
 F 1 "ATTINY85-S" H 5850 850 50  0000 C CNN
-F 2 "SMD_Packages:SOIC-8-N" H 5800 1250 50  0000 C CIN
+F 2 "extra:SO8_200mil_wide" H 5800 1250 50  0000 C CIN
 F 3 "" H 4850 1250 50  0000 C CNN
 	1    4850 1250
 	1    0    0    -1  
