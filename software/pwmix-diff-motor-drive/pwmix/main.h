@@ -20,7 +20,7 @@
 #define CHANNEL_TWO			1
 
 #define PWM_MIN				125
-#define PWM_MIDDLE			187
+#define PWM_MIDDLE			188
 #define PWM_MAX				250
 
 #define STATE_IDLE			0
