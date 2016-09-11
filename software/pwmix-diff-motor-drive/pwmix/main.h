@@ -10,12 +10,18 @@
 
 #include <avr/io.h>
 
+#define abs(x) (((x)>0)?(x):(-x))
+
+#define FLAGS_CH_ONE_RECV   1
+#define FLAGS_CH_TWO_RECV   2
+#define FLAGS_SYNC_DONE		4
+
 #define CHANNEL_ONE			0
 #define CHANNEL_TWO			1
 
-#define PWM_INVALID_MIN		80
-#define PWM_INVALID_MAX		220
-#define PWM_MIDDLE			150
+#define PWM_MIN				125
+#define PWM_MIDDLE			187
+#define PWM_MAX				250
 
 #define STATE_IDLE			0
 #define STATE_ACTIVE		1
