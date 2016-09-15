@@ -12,16 +12,16 @@
 #include <util/delay.h>
 #include "main.h"
 
-volatile int16_t lastPulseValI16A[2];
-volatile int16_t mixPulseValI16A[2];
-volatile uint8_t inputStateUI8A[2];
-volatile uint8_t flagsUI8;
+volatile int16_t lastPulseValI16A[2]; //Stores the last pulse received for each channel
+volatile int16_t mixPulseValI16A[2]; //Stores the output pulse after mixing
+volatile uint8_t inputStateUI8A[2]; //Stores the state of each channel
+volatile uint8_t flagsUI8; //Stores sync flags 
 
-ISR(TIM0_COMPA_vect){
+ISR(TIM0_COMPA_vect){ //Turn off channel one output on compare match
 	PORTB &= ~_BV(OUT_CHANNEL_ONE);
 }
 
-ISR(TIM1_COMPA_vect){
+ISR(TIM1_COMPA_vect){ //Turn off channel two output on compare match
 	PORTB &= ~_BV(OUT_CHANNEL_TWO);
 }
 
@@ -91,17 +91,17 @@ ISR(PCINT0_vect){ //Executed in input pin change
 }
 
 void inline waitNextPulse(void){
-	flagsUI8 &= ~FLAGS_CH_ONE_RECV;
-	while(!(flagsUI8 & FLAGS_CH_ONE_RECV));
-	flagsUI8 &= ~FLAGS_CH_ONE_RECV;
-	while(!(flagsUI8 & FLAGS_CH_ONE_RECV));
+	flagsUI8 &= ~FLAGS_CH_ONE_RECV; //First pulse might be incomplete do to changing clock mid pulse, so disregard
+	while(!(flagsUI8 & FLAGS_CH_ONE_RECV)); //Wait till we have a new pulse length
+	flagsUI8 &= ~FLAGS_CH_ONE_RECV; //Redo and get a valid pulse length
+	while(!(flagsUI8 & FLAGS_CH_ONE_RECV)); //Wait till pulse is done
 }
 
-void clockSync(void){
+void clockSync(void){ //Sync clock to receiver, assuming first couple of pulses from receiver is at mid stick, ie, 1.5mS
 	int16_t curDevI16, minDevI16 = INT16_MAX;
 	uint8_t stepValueUI8 = 64, trialValueUI8 = _BV(7), minTrialValueUI8 = UINT8_MAX, tmpTrialValueUI8;
 	
-	do{
+	do{ //Binary search over 7 bits of OSCCAL, bit 7 is high range bit
 		OSCCAL = trialValueUI8 + stepValueUI8;
 		waitNextPulse();
 		if(lastPulseValI16A[CHANNEL_ONE] < PWM_MIDDLE)
@@ -109,7 +109,7 @@ void clockSync(void){
 		stepValueUI8 >>= 1;
 	}while(stepValueUI8);
 	
-	for(tmpTrialValueUI8 = trialValueUI8 - 1; tmpTrialValueUI8 <= trialValueUI8 + 1; tmpTrialValueUI8++){
+	for(tmpTrialValueUI8 = trialValueUI8 - 1; tmpTrialValueUI8 <= trialValueUI8 + 1; tmpTrialValueUI8++){ //Local search to identify closest match
 		OSCCAL = tmpTrialValueUI8;
 		waitNextPulse();
 		curDevI16 = abs(lastPulseValI16A[CHANNEL_ONE] - PWM_MIDDLE);
@@ -119,9 +119,9 @@ void clockSync(void){
 		}
 	}
 
-	OSCCAL = minTrialValueUI8;
-	flagsUI8 |= FLAGS_SYNC_DONE;
-	PORTB |= _BV(OUT_CHANNEL_LED);
+	OSCCAL = minTrialValueUI8; //Set closest clock value
+	flagsUI8 |= FLAGS_SYNC_DONE; //Set sync as complete, so output module can start generating pulses
+	PORTB |= _BV(OUT_CHANNEL_LED); //Turn on LED to notify setup complete
 }
 
 void init(void){
@@ -144,10 +144,10 @@ void init(void){
 
 int main(void){
 	
-	_delay_ms(100);
+	_delay_ms(100); //Make sure we don't get any half/stray pulses
 	
-	init();
-	clockSync();
+	init(); //Initialize all peripherals and variables
+	clockSync(); //Perform the clock sync, as INT RC OSC is pretty crap, assume receiver is correct
 
 	while(1){
 
