@@ -41,8 +41,12 @@ ISR(TIM1_OVF_vect){
 	TCCR1 = 0; //Disable TIMR1
 }
 
-ISR(PCINT0_vect){ //Executed in input pin change
+ISR(PCINT0_vect, ISR_NOBLOCK){ //Executed in input pin change
 	uint8_t channelVarUI8, channelTmpUI8;
+	
+	if(flagsUI8 & FLAGS_PIN_CHANGE)
+		return;
+	flagsUI8 |= FLAGS_PIN_CHANGE;
 	
 	for(channelVarUI8 = CHANNEL_ONE; channelVarUI8 <= CHANNEL_TWO; channelVarUI8++){ //Check both input channels
 		switch(inputStateUI8A[channelVarUI8]){
@@ -88,6 +92,8 @@ ISR(PCINT0_vect){ //Executed in input pin change
 				break;
 		}
 	}
+	
+	flagsUI8 &= ~FLAGS_PIN_CHANGE;
 }
 
 void inline waitNextPulse(void){

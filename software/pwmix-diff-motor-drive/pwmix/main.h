@@ -15,6 +15,7 @@
 #define FLAGS_CH_ONE_RECV   1
 #define FLAGS_CH_TWO_RECV   2
 #define FLAGS_SYNC_DONE		4
+#define FLAGS_PIN_CHANGE	8
 
 #define CHANNEL_ONE			0
 #define CHANNEL_TWO			1

@@ -3,15 +3,15 @@ pwmix.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000402  00000000  00000000  00000074  2**1
+  0 .text         00000420  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  00000476  2**0
+  1 .data         00000000  00800060  00800060  00000494  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          0000000b  00800060  00800060  00000476  2**0
+  2 .bss          0000000b  00800060  00800060  00000494  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000476  2**0
+  3 .comment      00000030  00000000  00000000  00000494  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000004a8  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000004c4  2**2
                   CONTENTS, READONLY
 
 Disassembly of section .text:
@@ -54,8 +54,8 @@ Disassembly of section .text:
   34:	ab 36       	cpi	r26, 0x6B	; 107
   36:	b2 07       	cpc	r27, r18
   38:	e1 f7       	brne	.-8      	; 0x32 <.do_clear_bss_loop>
-  3a:	d5 d1       	rcall	.+938    	; 0x3e6 <main>
-  3c:	e0 c1       	rjmp	.+960    	; 0x3fe <_exit>
+  3a:	e4 d1       	rcall	.+968    	; 0x404 <main>
+  3c:	ef c1       	rjmp	.+990    	; 0x41c <_exit>
 
 0000003e <__bad_interrupt>:
   3e:	e0 cf       	rjmp	.-64     	; 0x0 <__vectors>
@@ -143,344 +143,354 @@ Disassembly of section .text:
   ea:	18 95       	reti
 
 000000ec <__vector_2>:
-  ec:	1f 92       	push	r1
-  ee:	0f 92       	push	r0
-  f0:	0f b6       	in	r0, 0x3f	; 63
-  f2:	0f 92       	push	r0
-  f4:	11 24       	eor	r1, r1
-  f6:	1f 93       	push	r17
-  f8:	2f 93       	push	r18
-  fa:	3f 93       	push	r19
-  fc:	4f 93       	push	r20
-  fe:	5f 93       	push	r21
- 100:	6f 93       	push	r22
- 102:	7f 93       	push	r23
- 104:	8f 93       	push	r24
- 106:	9f 93       	push	r25
- 108:	af 93       	push	r26
- 10a:	bf 93       	push	r27
- 10c:	cf 93       	push	r28
- 10e:	df 93       	push	r29
- 110:	ef 93       	push	r30
- 112:	ff 93       	push	r31
- 114:	80 e0       	ldi	r24, 0x00	; 0
- 116:	90 e0       	ldi	r25, 0x00	; 0
- 118:	11 e0       	ldi	r17, 0x01	; 1
- 11a:	ac eb       	ldi	r26, 0xBC	; 188
- 11c:	b0 e0       	ldi	r27, 0x00	; 0
- 11e:	6d e7       	ldi	r22, 0x7D	; 125
- 120:	70 e0       	ldi	r23, 0x00	; 0
- 122:	ea ef       	ldi	r30, 0xFA	; 250
- 124:	f0 e0       	ldi	r31, 0x00	; 0
- 126:	ec 01       	movw	r28, r24
- 128:	c7 59       	subi	r28, 0x97	; 151
- 12a:	df 4f       	sbci	r29, 0xFF	; 255
- 12c:	28 81       	ld	r18, Y
- 12e:	22 23       	and	r18, r18
- 130:	21 f0       	breq	.+8      	; 0x13a <__vector_2+0x4e>
- 132:	21 30       	cpi	r18, 0x01	; 1
- 134:	09 f4       	brne	.+2      	; 0x138 <__vector_2+0x4c>
- 136:	85 c0       	rjmp	.+266    	; 0x242 <__vector_2+0x156>
- 138:	a9 c0       	rjmp	.+338    	; 0x28c <__stack+0x2d>
- 13a:	26 b3       	in	r18, 0x16	; 22
- 13c:	30 e0       	ldi	r19, 0x00	; 0
- 13e:	00 97       	sbiw	r24, 0x00	; 0
- 140:	19 f0       	breq	.+6      	; 0x148 <__vector_2+0x5c>
- 142:	40 e1       	ldi	r20, 0x10	; 16
- 144:	50 e0       	ldi	r21, 0x00	; 0
- 146:	02 c0       	rjmp	.+4      	; 0x14c <__vector_2+0x60>
- 148:	48 e0       	ldi	r20, 0x08	; 8
- 14a:	50 e0       	ldi	r21, 0x00	; 0
- 14c:	24 23       	and	r18, r20
- 14e:	35 23       	and	r19, r21
- 150:	23 2b       	or	r18, r19
- 152:	09 f4       	brne	.+2      	; 0x156 <__vector_2+0x6a>
- 154:	9b c0       	rjmp	.+310    	; 0x28c <__stack+0x2d>
- 156:	18 83       	st	Y, r17
- 158:	c0 91 65 00 	lds	r28, 0x0065	; 0x800065 <lastPulseValI16A>
- 15c:	d0 91 66 00 	lds	r29, 0x0066	; 0x800066 <lastPulseValI16A+0x1>
- 160:	40 91 67 00 	lds	r20, 0x0067	; 0x800067 <lastPulseValI16A+0x2>
- 164:	50 91 68 00 	lds	r21, 0x0068	; 0x800068 <lastPulseValI16A+0x3>
- 168:	9a 01       	movw	r18, r20
- 16a:	2c 5b       	subi	r18, 0xBC	; 188
- 16c:	31 09       	sbc	r19, r1
- 16e:	2c 0f       	add	r18, r28
- 170:	3d 1f       	adc	r19, r29
- 172:	30 93 62 00 	sts	0x0062, r19	; 0x800062 <mixPulseValI16A+0x1>
- 176:	20 93 61 00 	sts	0x0061, r18	; 0x800061 <mixPulseValI16A>
- 17a:	40 91 65 00 	lds	r20, 0x0065	; 0x800065 <lastPulseValI16A>
- 17e:	50 91 66 00 	lds	r21, 0x0066	; 0x800066 <lastPulseValI16A+0x1>
- 182:	20 91 67 00 	lds	r18, 0x0067	; 0x800067 <lastPulseValI16A+0x2>
- 186:	30 91 68 00 	lds	r19, 0x0068	; 0x800068 <lastPulseValI16A+0x3>
- 18a:	ed 01       	movw	r28, r26
- 18c:	c2 1b       	sub	r28, r18
- 18e:	d3 0b       	sbc	r29, r19
- 190:	9e 01       	movw	r18, r28
- 192:	24 0f       	add	r18, r20
- 194:	35 1f       	adc	r19, r21
- 196:	30 93 64 00 	sts	0x0064, r19	; 0x800064 <mixPulseValI16A+0x3>
- 19a:	20 93 63 00 	sts	0x0063, r18	; 0x800063 <mixPulseValI16A+0x2>
- 19e:	20 91 61 00 	lds	r18, 0x0061	; 0x800061 <mixPulseValI16A>
- 1a2:	30 91 62 00 	lds	r19, 0x0062	; 0x800062 <mixPulseValI16A+0x1>
- 1a6:	2b 3f       	cpi	r18, 0xFB	; 251
- 1a8:	31 05       	cpc	r19, r1
- 1aa:	24 f0       	brlt	.+8      	; 0x1b4 <__vector_2+0xc8>
- 1ac:	f0 93 62 00 	sts	0x0062, r31	; 0x800062 <mixPulseValI16A+0x1>
- 1b0:	e0 93 61 00 	sts	0x0061, r30	; 0x800061 <mixPulseValI16A>
- 1b4:	20 91 61 00 	lds	r18, 0x0061	; 0x800061 <mixPulseValI16A>
- 1b8:	30 91 62 00 	lds	r19, 0x0062	; 0x800062 <mixPulseValI16A+0x1>
- 1bc:	2d 37       	cpi	r18, 0x7D	; 125
- 1be:	31 05       	cpc	r19, r1
- 1c0:	24 f4       	brge	.+8      	; 0x1ca <__vector_2+0xde>
- 1c2:	70 93 62 00 	sts	0x0062, r23	; 0x800062 <mixPulseValI16A+0x1>
- 1c6:	60 93 61 00 	sts	0x0061, r22	; 0x800061 <mixPulseValI16A>
- 1ca:	20 91 63 00 	lds	r18, 0x0063	; 0x800063 <mixPulseValI16A+0x2>
- 1ce:	30 91 64 00 	lds	r19, 0x0064	; 0x800064 <mixPulseValI16A+0x3>
- 1d2:	2b 3f       	cpi	r18, 0xFB	; 251
- 1d4:	31 05       	cpc	r19, r1
- 1d6:	24 f0       	brlt	.+8      	; 0x1e0 <__vector_2+0xf4>
- 1d8:	f0 93 64 00 	sts	0x0064, r31	; 0x800064 <mixPulseValI16A+0x3>
- 1dc:	e0 93 63 00 	sts	0x0063, r30	; 0x800063 <mixPulseValI16A+0x2>
- 1e0:	20 91 63 00 	lds	r18, 0x0063	; 0x800063 <mixPulseValI16A+0x2>
- 1e4:	30 91 64 00 	lds	r19, 0x0064	; 0x800064 <mixPulseValI16A+0x3>
- 1e8:	2d 37       	cpi	r18, 0x7D	; 125
- 1ea:	31 05       	cpc	r19, r1
- 1ec:	24 f4       	brge	.+8      	; 0x1f6 <__vector_2+0x10a>
- 1ee:	70 93 64 00 	sts	0x0064, r23	; 0x800064 <mixPulseValI16A+0x3>
- 1f2:	60 93 63 00 	sts	0x0063, r22	; 0x800063 <mixPulseValI16A+0x2>
- 1f6:	00 97       	sbiw	r24, 0x00	; 0
- 1f8:	91 f4       	brne	.+36     	; 0x21e <__vector_2+0x132>
- 1fa:	20 91 61 00 	lds	r18, 0x0061	; 0x800061 <mixPulseValI16A>
- 1fe:	30 91 62 00 	lds	r19, 0x0062	; 0x800062 <mixPulseValI16A+0x1>
- 202:	29 bd       	out	0x29, r18	; 41
- 204:	12 be       	out	0x32, r1	; 50
- 206:	2c b5       	in	r18, 0x2c	; 44
- 208:	21 60       	ori	r18, 0x01	; 1
- 20a:	2c bd       	out	0x2c, r18	; 44
- 20c:	23 b7       	in	r18, 0x33	; 51
- 20e:	23 60       	ori	r18, 0x03	; 3
- 210:	23 bf       	out	0x33, r18	; 51
- 212:	20 91 60 00 	lds	r18, 0x0060	; 0x800060 <_edata>
- 216:	22 ff       	sbrs	r18, 2
- 218:	39 c0       	rjmp	.+114    	; 0x28c <__stack+0x2d>
- 21a:	c1 9a       	sbi	0x18, 1	; 24
- 21c:	37 c0       	rjmp	.+110    	; 0x28c <__stack+0x2d>
- 21e:	20 91 63 00 	lds	r18, 0x0063	; 0x800063 <mixPulseValI16A+0x2>
- 222:	30 91 64 00 	lds	r19, 0x0064	; 0x800064 <mixPulseValI16A+0x3>
- 226:	2e bd       	out	0x2e, r18	; 46
- 228:	1f bc       	out	0x2f, r1	; 47
- 22a:	2c b5       	in	r18, 0x2c	; 44
- 22c:	22 60       	ori	r18, 0x02	; 2
- 22e:	2c bd       	out	0x2c, r18	; 44
- 230:	20 b7       	in	r18, 0x30	; 48
- 232:	27 60       	ori	r18, 0x07	; 7
- 234:	20 bf       	out	0x30, r18	; 48
- 236:	20 91 60 00 	lds	r18, 0x0060	; 0x800060 <_edata>
- 23a:	22 ff       	sbrs	r18, 2
- 23c:	27 c0       	rjmp	.+78     	; 0x28c <__stack+0x2d>
- 23e:	c2 9a       	sbi	0x18, 2	; 24
- 240:	25 c0       	rjmp	.+74     	; 0x28c <__stack+0x2d>
- 242:	26 b3       	in	r18, 0x16	; 22
- 244:	30 e0       	ldi	r19, 0x00	; 0
- 246:	00 97       	sbiw	r24, 0x00	; 0
- 248:	19 f0       	breq	.+6      	; 0x250 <__vector_2+0x164>
- 24a:	40 e1       	ldi	r20, 0x10	; 16
- 24c:	50 e0       	ldi	r21, 0x00	; 0
- 24e:	02 c0       	rjmp	.+4      	; 0x254 <__vector_2+0x168>
- 250:	48 e0       	ldi	r20, 0x08	; 8
- 252:	50 e0       	ldi	r21, 0x00	; 0
- 254:	24 23       	and	r18, r20
- 256:	35 23       	and	r19, r21
- 258:	23 2b       	or	r18, r19
- 25a:	c1 f4       	brne	.+48     	; 0x28c <__stack+0x2d>
- 25c:	18 82       	st	Y, r1
- 25e:	00 97       	sbiw	r24, 0x00	; 0
- 260:	51 f4       	brne	.+20     	; 0x276 <__stack+0x17>
- 262:	22 b7       	in	r18, 0x32	; 50
- 264:	30 e0       	ldi	r19, 0x00	; 0
- 266:	30 93 66 00 	sts	0x0066, r19	; 0x800066 <lastPulseValI16A+0x1>
- 26a:	20 93 65 00 	sts	0x0065, r18	; 0x800065 <lastPulseValI16A>
- 26e:	20 91 60 00 	lds	r18, 0x0060	; 0x800060 <_edata>
- 272:	21 60       	ori	r18, 0x01	; 1
- 274:	09 c0       	rjmp	.+18     	; 0x288 <__stack+0x29>
- 276:	2f b5       	in	r18, 0x2f	; 47
+  ec:	78 94       	sei
+  ee:	1f 92       	push	r1
+  f0:	0f 92       	push	r0
+  f2:	0f b6       	in	r0, 0x3f	; 63
+  f4:	0f 92       	push	r0
+  f6:	11 24       	eor	r1, r1
+  f8:	1f 93       	push	r17
+  fa:	2f 93       	push	r18
+  fc:	3f 93       	push	r19
+  fe:	4f 93       	push	r20
+ 100:	5f 93       	push	r21
+ 102:	6f 93       	push	r22
+ 104:	7f 93       	push	r23
+ 106:	8f 93       	push	r24
+ 108:	9f 93       	push	r25
+ 10a:	af 93       	push	r26
+ 10c:	bf 93       	push	r27
+ 10e:	cf 93       	push	r28
+ 110:	df 93       	push	r29
+ 112:	ef 93       	push	r30
+ 114:	ff 93       	push	r31
+ 116:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+ 11a:	83 fd       	sbrc	r24, 3
+ 11c:	cb c0       	rjmp	.+406    	; 0x2b4 <__stack+0x55>
+ 11e:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+ 122:	88 60       	ori	r24, 0x08	; 8
+ 124:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
+ 128:	80 e0       	ldi	r24, 0x00	; 0
+ 12a:	90 e0       	ldi	r25, 0x00	; 0
+ 12c:	11 e0       	ldi	r17, 0x01	; 1
+ 12e:	ac eb       	ldi	r26, 0xBC	; 188
+ 130:	b0 e0       	ldi	r27, 0x00	; 0
+ 132:	6d e7       	ldi	r22, 0x7D	; 125
+ 134:	70 e0       	ldi	r23, 0x00	; 0
+ 136:	ea ef       	ldi	r30, 0xFA	; 250
+ 138:	f0 e0       	ldi	r31, 0x00	; 0
+ 13a:	ec 01       	movw	r28, r24
+ 13c:	c7 59       	subi	r28, 0x97	; 151
+ 13e:	df 4f       	sbci	r29, 0xFF	; 255
+ 140:	28 81       	ld	r18, Y
+ 142:	22 23       	and	r18, r18
+ 144:	21 f0       	breq	.+8      	; 0x14e <__vector_2+0x62>
+ 146:	21 30       	cpi	r18, 0x01	; 1
+ 148:	09 f4       	brne	.+2      	; 0x14c <__vector_2+0x60>
+ 14a:	85 c0       	rjmp	.+266    	; 0x256 <__vector_2+0x16a>
+ 14c:	a9 c0       	rjmp	.+338    	; 0x2a0 <__stack+0x41>
+ 14e:	26 b3       	in	r18, 0x16	; 22
+ 150:	30 e0       	ldi	r19, 0x00	; 0
+ 152:	00 97       	sbiw	r24, 0x00	; 0
+ 154:	19 f0       	breq	.+6      	; 0x15c <__vector_2+0x70>
+ 156:	40 e1       	ldi	r20, 0x10	; 16
+ 158:	50 e0       	ldi	r21, 0x00	; 0
+ 15a:	02 c0       	rjmp	.+4      	; 0x160 <__vector_2+0x74>
+ 15c:	48 e0       	ldi	r20, 0x08	; 8
+ 15e:	50 e0       	ldi	r21, 0x00	; 0
+ 160:	24 23       	and	r18, r20
+ 162:	35 23       	and	r19, r21
+ 164:	23 2b       	or	r18, r19
+ 166:	09 f4       	brne	.+2      	; 0x16a <__vector_2+0x7e>
+ 168:	9b c0       	rjmp	.+310    	; 0x2a0 <__stack+0x41>
+ 16a:	18 83       	st	Y, r17
+ 16c:	c0 91 65 00 	lds	r28, 0x0065	; 0x800065 <lastPulseValI16A>
+ 170:	d0 91 66 00 	lds	r29, 0x0066	; 0x800066 <lastPulseValI16A+0x1>
+ 174:	40 91 67 00 	lds	r20, 0x0067	; 0x800067 <lastPulseValI16A+0x2>
+ 178:	50 91 68 00 	lds	r21, 0x0068	; 0x800068 <lastPulseValI16A+0x3>
+ 17c:	9a 01       	movw	r18, r20
+ 17e:	2c 5b       	subi	r18, 0xBC	; 188
+ 180:	31 09       	sbc	r19, r1
+ 182:	2c 0f       	add	r18, r28
+ 184:	3d 1f       	adc	r19, r29
+ 186:	30 93 62 00 	sts	0x0062, r19	; 0x800062 <mixPulseValI16A+0x1>
+ 18a:	20 93 61 00 	sts	0x0061, r18	; 0x800061 <mixPulseValI16A>
+ 18e:	40 91 65 00 	lds	r20, 0x0065	; 0x800065 <lastPulseValI16A>
+ 192:	50 91 66 00 	lds	r21, 0x0066	; 0x800066 <lastPulseValI16A+0x1>
+ 196:	20 91 67 00 	lds	r18, 0x0067	; 0x800067 <lastPulseValI16A+0x2>
+ 19a:	30 91 68 00 	lds	r19, 0x0068	; 0x800068 <lastPulseValI16A+0x3>
+ 19e:	ed 01       	movw	r28, r26
+ 1a0:	c2 1b       	sub	r28, r18
+ 1a2:	d3 0b       	sbc	r29, r19
+ 1a4:	9e 01       	movw	r18, r28
+ 1a6:	24 0f       	add	r18, r20
+ 1a8:	35 1f       	adc	r19, r21
+ 1aa:	30 93 64 00 	sts	0x0064, r19	; 0x800064 <mixPulseValI16A+0x3>
+ 1ae:	20 93 63 00 	sts	0x0063, r18	; 0x800063 <mixPulseValI16A+0x2>
+ 1b2:	20 91 61 00 	lds	r18, 0x0061	; 0x800061 <mixPulseValI16A>
+ 1b6:	30 91 62 00 	lds	r19, 0x0062	; 0x800062 <mixPulseValI16A+0x1>
+ 1ba:	2b 3f       	cpi	r18, 0xFB	; 251
+ 1bc:	31 05       	cpc	r19, r1
+ 1be:	24 f0       	brlt	.+8      	; 0x1c8 <__vector_2+0xdc>
+ 1c0:	f0 93 62 00 	sts	0x0062, r31	; 0x800062 <mixPulseValI16A+0x1>
+ 1c4:	e0 93 61 00 	sts	0x0061, r30	; 0x800061 <mixPulseValI16A>
+ 1c8:	20 91 61 00 	lds	r18, 0x0061	; 0x800061 <mixPulseValI16A>
+ 1cc:	30 91 62 00 	lds	r19, 0x0062	; 0x800062 <mixPulseValI16A+0x1>
+ 1d0:	2d 37       	cpi	r18, 0x7D	; 125
+ 1d2:	31 05       	cpc	r19, r1
+ 1d4:	24 f4       	brge	.+8      	; 0x1de <__vector_2+0xf2>
+ 1d6:	70 93 62 00 	sts	0x0062, r23	; 0x800062 <mixPulseValI16A+0x1>
+ 1da:	60 93 61 00 	sts	0x0061, r22	; 0x800061 <mixPulseValI16A>
+ 1de:	20 91 63 00 	lds	r18, 0x0063	; 0x800063 <mixPulseValI16A+0x2>
+ 1e2:	30 91 64 00 	lds	r19, 0x0064	; 0x800064 <mixPulseValI16A+0x3>
+ 1e6:	2b 3f       	cpi	r18, 0xFB	; 251
+ 1e8:	31 05       	cpc	r19, r1
+ 1ea:	24 f0       	brlt	.+8      	; 0x1f4 <__vector_2+0x108>
+ 1ec:	f0 93 64 00 	sts	0x0064, r31	; 0x800064 <mixPulseValI16A+0x3>
+ 1f0:	e0 93 63 00 	sts	0x0063, r30	; 0x800063 <mixPulseValI16A+0x2>
+ 1f4:	20 91 63 00 	lds	r18, 0x0063	; 0x800063 <mixPulseValI16A+0x2>
+ 1f8:	30 91 64 00 	lds	r19, 0x0064	; 0x800064 <mixPulseValI16A+0x3>
+ 1fc:	2d 37       	cpi	r18, 0x7D	; 125
+ 1fe:	31 05       	cpc	r19, r1
+ 200:	24 f4       	brge	.+8      	; 0x20a <__vector_2+0x11e>
+ 202:	70 93 64 00 	sts	0x0064, r23	; 0x800064 <mixPulseValI16A+0x3>
+ 206:	60 93 63 00 	sts	0x0063, r22	; 0x800063 <mixPulseValI16A+0x2>
+ 20a:	00 97       	sbiw	r24, 0x00	; 0
+ 20c:	91 f4       	brne	.+36     	; 0x232 <__vector_2+0x146>
+ 20e:	20 91 61 00 	lds	r18, 0x0061	; 0x800061 <mixPulseValI16A>
+ 212:	30 91 62 00 	lds	r19, 0x0062	; 0x800062 <mixPulseValI16A+0x1>
+ 216:	29 bd       	out	0x29, r18	; 41
+ 218:	12 be       	out	0x32, r1	; 50
+ 21a:	2c b5       	in	r18, 0x2c	; 44
+ 21c:	21 60       	ori	r18, 0x01	; 1
+ 21e:	2c bd       	out	0x2c, r18	; 44
+ 220:	23 b7       	in	r18, 0x33	; 51
+ 222:	23 60       	ori	r18, 0x03	; 3
+ 224:	23 bf       	out	0x33, r18	; 51
+ 226:	20 91 60 00 	lds	r18, 0x0060	; 0x800060 <_edata>
+ 22a:	22 ff       	sbrs	r18, 2
+ 22c:	39 c0       	rjmp	.+114    	; 0x2a0 <__stack+0x41>
+ 22e:	c1 9a       	sbi	0x18, 1	; 24
+ 230:	37 c0       	rjmp	.+110    	; 0x2a0 <__stack+0x41>
+ 232:	20 91 63 00 	lds	r18, 0x0063	; 0x800063 <mixPulseValI16A+0x2>
+ 236:	30 91 64 00 	lds	r19, 0x0064	; 0x800064 <mixPulseValI16A+0x3>
+ 23a:	2e bd       	out	0x2e, r18	; 46
+ 23c:	1f bc       	out	0x2f, r1	; 47
+ 23e:	2c b5       	in	r18, 0x2c	; 44
+ 240:	22 60       	ori	r18, 0x02	; 2
+ 242:	2c bd       	out	0x2c, r18	; 44
+ 244:	20 b7       	in	r18, 0x30	; 48
+ 246:	27 60       	ori	r18, 0x07	; 7
+ 248:	20 bf       	out	0x30, r18	; 48
+ 24a:	20 91 60 00 	lds	r18, 0x0060	; 0x800060 <_edata>
+ 24e:	22 ff       	sbrs	r18, 2
+ 250:	27 c0       	rjmp	.+78     	; 0x2a0 <__stack+0x41>
+ 252:	c2 9a       	sbi	0x18, 2	; 24
+ 254:	25 c0       	rjmp	.+74     	; 0x2a0 <__stack+0x41>
+ 256:	26 b3       	in	r18, 0x16	; 22
+ 258:	30 e0       	ldi	r19, 0x00	; 0
+ 25a:	00 97       	sbiw	r24, 0x00	; 0
+ 25c:	19 f0       	breq	.+6      	; 0x264 <__stack+0x5>
+ 25e:	40 e1       	ldi	r20, 0x10	; 16
+ 260:	50 e0       	ldi	r21, 0x00	; 0
+ 262:	02 c0       	rjmp	.+4      	; 0x268 <__stack+0x9>
+ 264:	48 e0       	ldi	r20, 0x08	; 8
+ 266:	50 e0       	ldi	r21, 0x00	; 0
+ 268:	24 23       	and	r18, r20
+ 26a:	35 23       	and	r19, r21
+ 26c:	23 2b       	or	r18, r19
+ 26e:	c1 f4       	brne	.+48     	; 0x2a0 <__stack+0x41>
+ 270:	18 82       	st	Y, r1
+ 272:	00 97       	sbiw	r24, 0x00	; 0
+ 274:	51 f4       	brne	.+20     	; 0x28a <__stack+0x2b>
+ 276:	22 b7       	in	r18, 0x32	; 50
  278:	30 e0       	ldi	r19, 0x00	; 0
- 27a:	30 93 68 00 	sts	0x0068, r19	; 0x800068 <lastPulseValI16A+0x3>
- 27e:	20 93 67 00 	sts	0x0067, r18	; 0x800067 <lastPulseValI16A+0x2>
+ 27a:	30 93 66 00 	sts	0x0066, r19	; 0x800066 <lastPulseValI16A+0x1>
+ 27e:	20 93 65 00 	sts	0x0065, r18	; 0x800065 <lastPulseValI16A>
  282:	20 91 60 00 	lds	r18, 0x0060	; 0x800060 <_edata>
- 286:	22 60       	ori	r18, 0x02	; 2
- 288:	20 93 60 00 	sts	0x0060, r18	; 0x800060 <_edata>
- 28c:	01 97       	sbiw	r24, 0x01	; 1
- 28e:	19 f0       	breq	.+6      	; 0x296 <__stack+0x37>
- 290:	81 e0       	ldi	r24, 0x01	; 1
- 292:	90 e0       	ldi	r25, 0x00	; 0
- 294:	48 cf       	rjmp	.-368    	; 0x126 <__vector_2+0x3a>
- 296:	ff 91       	pop	r31
- 298:	ef 91       	pop	r30
- 29a:	df 91       	pop	r29
- 29c:	cf 91       	pop	r28
- 29e:	bf 91       	pop	r27
- 2a0:	af 91       	pop	r26
- 2a2:	9f 91       	pop	r25
- 2a4:	8f 91       	pop	r24
- 2a6:	7f 91       	pop	r23
- 2a8:	6f 91       	pop	r22
- 2aa:	5f 91       	pop	r21
- 2ac:	4f 91       	pop	r20
- 2ae:	3f 91       	pop	r19
- 2b0:	2f 91       	pop	r18
- 2b2:	1f 91       	pop	r17
- 2b4:	0f 90       	pop	r0
- 2b6:	0f be       	out	0x3f, r0	; 63
- 2b8:	0f 90       	pop	r0
- 2ba:	1f 90       	pop	r1
- 2bc:	18 95       	reti
+ 286:	21 60       	ori	r18, 0x01	; 1
+ 288:	09 c0       	rjmp	.+18     	; 0x29c <__stack+0x3d>
+ 28a:	2f b5       	in	r18, 0x2f	; 47
+ 28c:	30 e0       	ldi	r19, 0x00	; 0
+ 28e:	30 93 68 00 	sts	0x0068, r19	; 0x800068 <lastPulseValI16A+0x3>
+ 292:	20 93 67 00 	sts	0x0067, r18	; 0x800067 <lastPulseValI16A+0x2>
+ 296:	20 91 60 00 	lds	r18, 0x0060	; 0x800060 <_edata>
+ 29a:	22 60       	ori	r18, 0x02	; 2
+ 29c:	20 93 60 00 	sts	0x0060, r18	; 0x800060 <_edata>
+ 2a0:	01 97       	sbiw	r24, 0x01	; 1
+ 2a2:	19 f0       	breq	.+6      	; 0x2aa <__stack+0x4b>
+ 2a4:	81 e0       	ldi	r24, 0x01	; 1
+ 2a6:	90 e0       	ldi	r25, 0x00	; 0
+ 2a8:	48 cf       	rjmp	.-368    	; 0x13a <__vector_2+0x4e>
+ 2aa:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+ 2ae:	87 7f       	andi	r24, 0xF7	; 247
+ 2b0:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
+ 2b4:	ff 91       	pop	r31
+ 2b6:	ef 91       	pop	r30
+ 2b8:	df 91       	pop	r29
+ 2ba:	cf 91       	pop	r28
+ 2bc:	bf 91       	pop	r27
+ 2be:	af 91       	pop	r26
+ 2c0:	9f 91       	pop	r25
+ 2c2:	8f 91       	pop	r24
+ 2c4:	7f 91       	pop	r23
+ 2c6:	6f 91       	pop	r22
+ 2c8:	5f 91       	pop	r21
+ 2ca:	4f 91       	pop	r20
+ 2cc:	3f 91       	pop	r19
+ 2ce:	2f 91       	pop	r18
+ 2d0:	1f 91       	pop	r17
+ 2d2:	0f 90       	pop	r0
+ 2d4:	0f be       	out	0x3f, r0	; 63
+ 2d6:	0f 90       	pop	r0
+ 2d8:	1f 90       	pop	r1
+ 2da:	18 95       	reti
 
-000002be <clockSync>:
- 2be:	cf 93       	push	r28
- 2c0:	df 93       	push	r29
- 2c2:	27 e0       	ldi	r18, 0x07	; 7
- 2c4:	30 e0       	ldi	r19, 0x00	; 0
- 2c6:	80 e8       	ldi	r24, 0x80	; 128
- 2c8:	90 e4       	ldi	r25, 0x40	; 64
- 2ca:	58 2f       	mov	r21, r24
- 2cc:	59 0f       	add	r21, r25
- 2ce:	51 bf       	out	0x31, r21	; 49
- 2d0:	40 91 60 00 	lds	r20, 0x0060	; 0x800060 <_edata>
- 2d4:	4e 7f       	andi	r20, 0xFE	; 254
- 2d6:	40 93 60 00 	sts	0x0060, r20	; 0x800060 <_edata>
- 2da:	40 91 60 00 	lds	r20, 0x0060	; 0x800060 <_edata>
- 2de:	40 ff       	sbrs	r20, 0
- 2e0:	fc cf       	rjmp	.-8      	; 0x2da <clockSync+0x1c>
- 2e2:	40 91 60 00 	lds	r20, 0x0060	; 0x800060 <_edata>
- 2e6:	4e 7f       	andi	r20, 0xFE	; 254
- 2e8:	40 93 60 00 	sts	0x0060, r20	; 0x800060 <_edata>
- 2ec:	40 91 60 00 	lds	r20, 0x0060	; 0x800060 <_edata>
- 2f0:	40 ff       	sbrs	r20, 0
- 2f2:	fc cf       	rjmp	.-8      	; 0x2ec <clockSync+0x2e>
- 2f4:	60 91 65 00 	lds	r22, 0x0065	; 0x800065 <lastPulseValI16A>
- 2f8:	70 91 66 00 	lds	r23, 0x0066	; 0x800066 <lastPulseValI16A+0x1>
- 2fc:	6c 3b       	cpi	r22, 0xBC	; 188
- 2fe:	71 05       	cpc	r23, r1
- 300:	0c f4       	brge	.+2      	; 0x304 <clockSync+0x46>
- 302:	85 2f       	mov	r24, r21
- 304:	96 95       	lsr	r25
- 306:	21 50       	subi	r18, 0x01	; 1
- 308:	31 09       	sbc	r19, r1
- 30a:	f9 f6       	brne	.-66     	; 0x2ca <clockSync+0xc>
- 30c:	2f ef       	ldi	r18, 0xFF	; 255
- 30e:	28 0f       	add	r18, r24
- 310:	6f ef       	ldi	r22, 0xFF	; 255
- 312:	ef ef       	ldi	r30, 0xFF	; 255
- 314:	ff e7       	ldi	r31, 0x7F	; 127
- 316:	90 e0       	ldi	r25, 0x00	; 0
- 318:	01 96       	adiw	r24, 0x01	; 1
- 31a:	a4 e4       	ldi	r26, 0x44	; 68
- 31c:	bf ef       	ldi	r27, 0xFF	; 255
- 31e:	42 2f       	mov	r20, r18
- 320:	50 e0       	ldi	r21, 0x00	; 0
- 322:	84 17       	cp	r24, r20
- 324:	95 07       	cpc	r25, r21
- 326:	84 f1       	brlt	.+96     	; 0x388 <clockSync+0xca>
- 328:	21 bf       	out	0x31, r18	; 49
- 32a:	30 91 60 00 	lds	r19, 0x0060	; 0x800060 <_edata>
- 32e:	3e 7f       	andi	r19, 0xFE	; 254
- 330:	30 93 60 00 	sts	0x0060, r19	; 0x800060 <_edata>
- 334:	30 91 60 00 	lds	r19, 0x0060	; 0x800060 <_edata>
- 338:	30 ff       	sbrs	r19, 0
- 33a:	fc cf       	rjmp	.-8      	; 0x334 <clockSync+0x76>
- 33c:	30 91 60 00 	lds	r19, 0x0060	; 0x800060 <_edata>
- 340:	3e 7f       	andi	r19, 0xFE	; 254
- 342:	30 93 60 00 	sts	0x0060, r19	; 0x800060 <_edata>
- 346:	30 91 60 00 	lds	r19, 0x0060	; 0x800060 <_edata>
- 34a:	30 ff       	sbrs	r19, 0
- 34c:	fc cf       	rjmp	.-8      	; 0x346 <clockSync+0x88>
- 34e:	40 91 65 00 	lds	r20, 0x0065	; 0x800065 <lastPulseValI16A>
- 352:	50 91 66 00 	lds	r21, 0x0066	; 0x800066 <lastPulseValI16A+0x1>
- 356:	4d 3b       	cpi	r20, 0xBD	; 189
- 358:	51 05       	cpc	r21, r1
- 35a:	3c f0       	brlt	.+14     	; 0x36a <clockSync+0xac>
- 35c:	40 91 65 00 	lds	r20, 0x0065	; 0x800065 <lastPulseValI16A>
- 360:	50 91 66 00 	lds	r21, 0x0066	; 0x800066 <lastPulseValI16A+0x1>
- 364:	4c 5b       	subi	r20, 0xBC	; 188
- 366:	51 09       	sbc	r21, r1
- 368:	08 c0       	rjmp	.+16     	; 0x37a <clockSync+0xbc>
- 36a:	40 91 65 00 	lds	r20, 0x0065	; 0x800065 <lastPulseValI16A>
- 36e:	50 91 66 00 	lds	r21, 0x0066	; 0x800066 <lastPulseValI16A+0x1>
- 372:	ed 01       	movw	r28, r26
- 374:	c4 1b       	sub	r28, r20
- 376:	d5 0b       	sbc	r29, r21
- 378:	ae 01       	movw	r20, r28
- 37a:	4e 17       	cp	r20, r30
- 37c:	5f 07       	cpc	r21, r31
- 37e:	14 f4       	brge	.+4      	; 0x384 <clockSync+0xc6>
- 380:	62 2f       	mov	r22, r18
- 382:	fa 01       	movw	r30, r20
- 384:	2f 5f       	subi	r18, 0xFF	; 255
- 386:	cb cf       	rjmp	.-106    	; 0x31e <clockSync+0x60>
- 388:	61 bf       	out	0x31, r22	; 49
- 38a:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
- 38e:	84 60       	ori	r24, 0x04	; 4
- 390:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
- 394:	c0 9a       	sbi	0x18, 0	; 24
- 396:	df 91       	pop	r29
- 398:	cf 91       	pop	r28
- 39a:	08 95       	ret
+000002dc <clockSync>:
+ 2dc:	cf 93       	push	r28
+ 2de:	df 93       	push	r29
+ 2e0:	27 e0       	ldi	r18, 0x07	; 7
+ 2e2:	30 e0       	ldi	r19, 0x00	; 0
+ 2e4:	80 e8       	ldi	r24, 0x80	; 128
+ 2e6:	90 e4       	ldi	r25, 0x40	; 64
+ 2e8:	58 2f       	mov	r21, r24
+ 2ea:	59 0f       	add	r21, r25
+ 2ec:	51 bf       	out	0x31, r21	; 49
+ 2ee:	40 91 60 00 	lds	r20, 0x0060	; 0x800060 <_edata>
+ 2f2:	4e 7f       	andi	r20, 0xFE	; 254
+ 2f4:	40 93 60 00 	sts	0x0060, r20	; 0x800060 <_edata>
+ 2f8:	40 91 60 00 	lds	r20, 0x0060	; 0x800060 <_edata>
+ 2fc:	40 ff       	sbrs	r20, 0
+ 2fe:	fc cf       	rjmp	.-8      	; 0x2f8 <clockSync+0x1c>
+ 300:	40 91 60 00 	lds	r20, 0x0060	; 0x800060 <_edata>
+ 304:	4e 7f       	andi	r20, 0xFE	; 254
+ 306:	40 93 60 00 	sts	0x0060, r20	; 0x800060 <_edata>
+ 30a:	40 91 60 00 	lds	r20, 0x0060	; 0x800060 <_edata>
+ 30e:	40 ff       	sbrs	r20, 0
+ 310:	fc cf       	rjmp	.-8      	; 0x30a <clockSync+0x2e>
+ 312:	60 91 65 00 	lds	r22, 0x0065	; 0x800065 <lastPulseValI16A>
+ 316:	70 91 66 00 	lds	r23, 0x0066	; 0x800066 <lastPulseValI16A+0x1>
+ 31a:	6c 3b       	cpi	r22, 0xBC	; 188
+ 31c:	71 05       	cpc	r23, r1
+ 31e:	0c f4       	brge	.+2      	; 0x322 <clockSync+0x46>
+ 320:	85 2f       	mov	r24, r21
+ 322:	96 95       	lsr	r25
+ 324:	21 50       	subi	r18, 0x01	; 1
+ 326:	31 09       	sbc	r19, r1
+ 328:	f9 f6       	brne	.-66     	; 0x2e8 <clockSync+0xc>
+ 32a:	2f ef       	ldi	r18, 0xFF	; 255
+ 32c:	28 0f       	add	r18, r24
+ 32e:	6f ef       	ldi	r22, 0xFF	; 255
+ 330:	ef ef       	ldi	r30, 0xFF	; 255
+ 332:	ff e7       	ldi	r31, 0x7F	; 127
+ 334:	90 e0       	ldi	r25, 0x00	; 0
+ 336:	01 96       	adiw	r24, 0x01	; 1
+ 338:	a4 e4       	ldi	r26, 0x44	; 68
+ 33a:	bf ef       	ldi	r27, 0xFF	; 255
+ 33c:	42 2f       	mov	r20, r18
+ 33e:	50 e0       	ldi	r21, 0x00	; 0
+ 340:	84 17       	cp	r24, r20
+ 342:	95 07       	cpc	r25, r21
+ 344:	84 f1       	brlt	.+96     	; 0x3a6 <clockSync+0xca>
+ 346:	21 bf       	out	0x31, r18	; 49
+ 348:	30 91 60 00 	lds	r19, 0x0060	; 0x800060 <_edata>
+ 34c:	3e 7f       	andi	r19, 0xFE	; 254
+ 34e:	30 93 60 00 	sts	0x0060, r19	; 0x800060 <_edata>
+ 352:	30 91 60 00 	lds	r19, 0x0060	; 0x800060 <_edata>
+ 356:	30 ff       	sbrs	r19, 0
+ 358:	fc cf       	rjmp	.-8      	; 0x352 <clockSync+0x76>
+ 35a:	30 91 60 00 	lds	r19, 0x0060	; 0x800060 <_edata>
+ 35e:	3e 7f       	andi	r19, 0xFE	; 254
+ 360:	30 93 60 00 	sts	0x0060, r19	; 0x800060 <_edata>
+ 364:	30 91 60 00 	lds	r19, 0x0060	; 0x800060 <_edata>
+ 368:	30 ff       	sbrs	r19, 0
+ 36a:	fc cf       	rjmp	.-8      	; 0x364 <clockSync+0x88>
+ 36c:	40 91 65 00 	lds	r20, 0x0065	; 0x800065 <lastPulseValI16A>
+ 370:	50 91 66 00 	lds	r21, 0x0066	; 0x800066 <lastPulseValI16A+0x1>
+ 374:	4d 3b       	cpi	r20, 0xBD	; 189
+ 376:	51 05       	cpc	r21, r1
+ 378:	3c f0       	brlt	.+14     	; 0x388 <clockSync+0xac>
+ 37a:	40 91 65 00 	lds	r20, 0x0065	; 0x800065 <lastPulseValI16A>
+ 37e:	50 91 66 00 	lds	r21, 0x0066	; 0x800066 <lastPulseValI16A+0x1>
+ 382:	4c 5b       	subi	r20, 0xBC	; 188
+ 384:	51 09       	sbc	r21, r1
+ 386:	08 c0       	rjmp	.+16     	; 0x398 <clockSync+0xbc>
+ 388:	40 91 65 00 	lds	r20, 0x0065	; 0x800065 <lastPulseValI16A>
+ 38c:	50 91 66 00 	lds	r21, 0x0066	; 0x800066 <lastPulseValI16A+0x1>
+ 390:	ed 01       	movw	r28, r26
+ 392:	c4 1b       	sub	r28, r20
+ 394:	d5 0b       	sbc	r29, r21
+ 396:	ae 01       	movw	r20, r28
+ 398:	4e 17       	cp	r20, r30
+ 39a:	5f 07       	cpc	r21, r31
+ 39c:	14 f4       	brge	.+4      	; 0x3a2 <clockSync+0xc6>
+ 39e:	62 2f       	mov	r22, r18
+ 3a0:	fa 01       	movw	r30, r20
+ 3a2:	2f 5f       	subi	r18, 0xFF	; 255
+ 3a4:	cb cf       	rjmp	.-106    	; 0x33c <clockSync+0x60>
+ 3a6:	61 bf       	out	0x31, r22	; 49
+ 3a8:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+ 3ac:	84 60       	ori	r24, 0x04	; 4
+ 3ae:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
+ 3b2:	c0 9a       	sbi	0x18, 0	; 24
+ 3b4:	df 91       	pop	r29
+ 3b6:	cf 91       	pop	r28
+ 3b8:	08 95       	ret
 
-0000039c <init>:
- 39c:	87 b3       	in	r24, 0x17	; 23
- 39e:	87 60       	ori	r24, 0x07	; 7
- 3a0:	87 bb       	out	0x17, r24	; 23
- 3a2:	88 b3       	in	r24, 0x18	; 24
- 3a4:	88 61       	ori	r24, 0x18	; 24
- 3a6:	88 bb       	out	0x18, r24	; 24
- 3a8:	e5 e6       	ldi	r30, 0x65	; 101
- 3aa:	f0 e0       	ldi	r31, 0x00	; 0
- 3ac:	8c eb       	ldi	r24, 0xBC	; 188
- 3ae:	90 e0       	ldi	r25, 0x00	; 0
- 3b0:	93 83       	std	Z+3, r25	; 0x03
- 3b2:	82 83       	std	Z+2, r24	; 0x02
- 3b4:	91 83       	std	Z+1, r25	; 0x01
- 3b6:	80 83       	st	Z, r24
- 3b8:	e1 e6       	ldi	r30, 0x61	; 97
- 3ba:	f0 e0       	ldi	r31, 0x00	; 0
- 3bc:	93 83       	std	Z+3, r25	; 0x03
- 3be:	82 83       	std	Z+2, r24	; 0x02
- 3c0:	91 83       	std	Z+1, r25	; 0x01
- 3c2:	80 83       	st	Z, r24
- 3c4:	e9 e6       	ldi	r30, 0x69	; 105
- 3c6:	f0 e0       	ldi	r31, 0x00	; 0
- 3c8:	11 82       	std	Z+1, r1	; 0x01
- 3ca:	10 82       	st	Z, r1
- 3cc:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
- 3d0:	89 b7       	in	r24, 0x39	; 57
- 3d2:	86 65       	ori	r24, 0x56	; 86
- 3d4:	89 bf       	out	0x39, r24	; 57
- 3d6:	85 b3       	in	r24, 0x15	; 21
- 3d8:	88 61       	ori	r24, 0x18	; 24
- 3da:	85 bb       	out	0x15, r24	; 21
- 3dc:	8b b7       	in	r24, 0x3b	; 59
- 3de:	80 62       	ori	r24, 0x20	; 32
- 3e0:	8b bf       	out	0x3b, r24	; 59
- 3e2:	78 94       	sei
- 3e4:	08 95       	ret
+000003ba <init>:
+ 3ba:	87 b3       	in	r24, 0x17	; 23
+ 3bc:	87 60       	ori	r24, 0x07	; 7
+ 3be:	87 bb       	out	0x17, r24	; 23
+ 3c0:	88 b3       	in	r24, 0x18	; 24
+ 3c2:	88 61       	ori	r24, 0x18	; 24
+ 3c4:	88 bb       	out	0x18, r24	; 24
+ 3c6:	e5 e6       	ldi	r30, 0x65	; 101
+ 3c8:	f0 e0       	ldi	r31, 0x00	; 0
+ 3ca:	8c eb       	ldi	r24, 0xBC	; 188
+ 3cc:	90 e0       	ldi	r25, 0x00	; 0
+ 3ce:	93 83       	std	Z+3, r25	; 0x03
+ 3d0:	82 83       	std	Z+2, r24	; 0x02
+ 3d2:	91 83       	std	Z+1, r25	; 0x01
+ 3d4:	80 83       	st	Z, r24
+ 3d6:	e1 e6       	ldi	r30, 0x61	; 97
+ 3d8:	f0 e0       	ldi	r31, 0x00	; 0
+ 3da:	93 83       	std	Z+3, r25	; 0x03
+ 3dc:	82 83       	std	Z+2, r24	; 0x02
+ 3de:	91 83       	std	Z+1, r25	; 0x01
+ 3e0:	80 83       	st	Z, r24
+ 3e2:	e9 e6       	ldi	r30, 0x69	; 105
+ 3e4:	f0 e0       	ldi	r31, 0x00	; 0
+ 3e6:	11 82       	std	Z+1, r1	; 0x01
+ 3e8:	10 82       	st	Z, r1
+ 3ea:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+ 3ee:	89 b7       	in	r24, 0x39	; 57
+ 3f0:	86 65       	ori	r24, 0x56	; 86
+ 3f2:	89 bf       	out	0x39, r24	; 57
+ 3f4:	85 b3       	in	r24, 0x15	; 21
+ 3f6:	88 61       	ori	r24, 0x18	; 24
+ 3f8:	85 bb       	out	0x15, r24	; 21
+ 3fa:	8b b7       	in	r24, 0x3b	; 59
+ 3fc:	80 62       	ori	r24, 0x20	; 32
+ 3fe:	8b bf       	out	0x3b, r24	; 59
+ 400:	78 94       	sei
+ 402:	08 95       	ret
 
-000003e6 <main>:
- 3e6:	2f ef       	ldi	r18, 0xFF	; 255
- 3e8:	80 e7       	ldi	r24, 0x70	; 112
- 3ea:	92 e0       	ldi	r25, 0x02	; 2
- 3ec:	21 50       	subi	r18, 0x01	; 1
- 3ee:	80 40       	sbci	r24, 0x00	; 0
- 3f0:	90 40       	sbci	r25, 0x00	; 0
- 3f2:	e1 f7       	brne	.-8      	; 0x3ec <main+0x6>
- 3f4:	00 c0       	rjmp	.+0      	; 0x3f6 <main+0x10>
- 3f6:	00 00       	nop
- 3f8:	d1 df       	rcall	.-94     	; 0x39c <init>
- 3fa:	61 df       	rcall	.-318    	; 0x2be <clockSync>
- 3fc:	ff cf       	rjmp	.-2      	; 0x3fc <main+0x16>
+00000404 <main>:
+ 404:	2f ef       	ldi	r18, 0xFF	; 255
+ 406:	80 e7       	ldi	r24, 0x70	; 112
+ 408:	92 e0       	ldi	r25, 0x02	; 2
+ 40a:	21 50       	subi	r18, 0x01	; 1
+ 40c:	80 40       	sbci	r24, 0x00	; 0
+ 40e:	90 40       	sbci	r25, 0x00	; 0
+ 410:	e1 f7       	brne	.-8      	; 0x40a <main+0x6>
+ 412:	00 c0       	rjmp	.+0      	; 0x414 <main+0x10>
+ 414:	00 00       	nop
+ 416:	d1 df       	rcall	.-94     	; 0x3ba <init>
+ 418:	61 df       	rcall	.-318    	; 0x2dc <clockSync>
+ 41a:	ff cf       	rjmp	.-2      	; 0x41a <main+0x16>
 
-000003fe <_exit>:
- 3fe:	f8 94       	cli
+0000041c <_exit>:
+ 41c:	f8 94       	cli
 
-00000400 <__stop_program>:
- 400:	ff cf       	rjmp	.-2      	; 0x400 <__stop_program>
+0000041e <__stop_program>:
+ 41e:	ff cf       	rjmp	.-2      	; 0x41e <__stop_program>
