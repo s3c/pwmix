@@ -26,18 +26,20 @@ ISR(TIM1_COMPA_vect){ //Turn off channel two output on compare match
 }
 
 ISR(TIM0_OVF_vect){
-	flagsUI8 |= FLAGS_CH_ONE_RECV;
+	//flagsUI8 |= FLAGS_CH_ONE_RECV;
 	if(inputStateUI8A[CHANNEL_ONE] == STATE_ACTIVE) //If we had an overflow before the pulse ended
 		lastPulseValI16A[CHANNEL_ONE] = PWM_MAX; //Just save the value as longest valid pulse length
 	inputStateUI8A[CHANNEL_ONE] = STATE_IDLE;
+	PORTB &= ~_BV(OUT_CHANNEL_ONE); //Should never be needed
 	TCCR0B = 0; //Disable TIMR0
 }
 
 ISR(TIM1_OVF_vect){
-	flagsUI8 |= FLAGS_CH_TWO_RECV;
+	//flagsUI8 |= FLAGS_CH_TWO_RECV;
 	if(inputStateUI8A[CHANNEL_TWO] == STATE_ACTIVE) //If we had an overflow before the pulse ended
 		lastPulseValI16A[CHANNEL_TWO] = PWM_MAX; //Just save the value as longest valid pulse length
 	inputStateUI8A[CHANNEL_TWO] = STATE_IDLE;
+	PORTB &= ~_BV(OUT_CHANNEL_TWO); //Should never be needed
 	TCCR1 = 0; //Disable TIMR1
 }
 
@@ -53,12 +55,14 @@ ISR(PCINT0_vect, ISR_NOBLOCK){ //Executed in input pin change
 			case STATE_IDLE:
 				if(PINB & _BV((channelVarUI8 == CHANNEL_ONE)?IN_CHANNEL_ONE:IN_CHANNEL_TWO)){ //If state idle and input signal high
 					inputStateUI8A[channelVarUI8] = STATE_ACTIVE;
+					//lastPulseValI16A[CHANNEL_ONE] = PWM_MIDDLE;
+					//lastPulseValI16A[CHANNEL_TWO] = PWM_MIDDLE;
 					mixPulseValI16A[CHANNEL_ONE] = lastPulseValI16A[CHANNEL_ONE] + (lastPulseValI16A[CHANNEL_TWO] - PWM_MIDDLE); //Calculate mixint outputs from previous pulse lengths
 					mixPulseValI16A[CHANNEL_TWO] = lastPulseValI16A[CHANNEL_ONE] - (lastPulseValI16A[CHANNEL_TWO] - PWM_MIDDLE); //Calculate mixint outputs from previous pulse lengths
 					for(channelTmpUI8 = CHANNEL_ONE; channelTmpUI8 <= CHANNEL_TWO; channelTmpUI8++){ //Make sure the mixed values are within reasonable limits
 						if(mixPulseValI16A[channelTmpUI8] > PWM_MAX)
 							mixPulseValI16A[channelTmpUI8] = PWM_MAX;
-						if(mixPulseValI16A[channelTmpUI8] < PWM_MIN)
+						/*else*/ if(mixPulseValI16A[channelTmpUI8] < PWM_MIN)
 							mixPulseValI16A[channelTmpUI8] = PWM_MIN;
 					}
 					if(channelVarUI8 == CHANNEL_ONE){
@@ -68,6 +72,7 @@ ISR(PCINT0_vect, ISR_NOBLOCK){ //Executed in input pin change
 						TCCR0B |= _BV(CS01) | _BV(CS00); //Start TMR0 with 64 prescaler
 						if(flagsUI8 & FLAGS_SYNC_DONE)
 							PORTB |= _BV(OUT_CHANNEL_ONE); //Set channel output high
+						//break; //Some weird edge case can happen to make signals jump, think this happens when an int fires while we're in here, not convinced this fixes it yet...
 					}else{
 						OCR1A = mixPulseValI16A[CHANNEL_TWO]; //Set compare match to stop output pulse
 						TCNT1 = 0; //Reset TMR1 
@@ -75,6 +80,7 @@ ISR(PCINT0_vect, ISR_NOBLOCK){ //Executed in input pin change
 						TCCR1 |= _BV(CS12) | _BV(CS11) | _BV(CS10); //Start TMR1 with 64 prescaler
 						if(flagsUI8 & FLAGS_SYNC_DONE)
 							PORTB |= _BV(OUT_CHANNEL_TWO); //Set channel output high
+						//break; //Some weird edge case can happen to make signals jump, think this happens when an int fires while we're in here, not convinced this fixes it yet...
 					}
 				}
 				break;
@@ -84,9 +90,11 @@ ISR(PCINT0_vect, ISR_NOBLOCK){ //Executed in input pin change
 					if(channelVarUI8 == CHANNEL_ONE){
 						lastPulseValI16A[CHANNEL_ONE] = TCNT0; //Save the length of last pulse
 						flagsUI8 |= FLAGS_CH_ONE_RECV; //Mark that we received a new pulse (for sync)
+						//break; //Some weird edge case can happen to make signals jump, think this happens when an int fires while we're in here, not convinced this fixes it yet...
 					}else{
 						lastPulseValI16A[CHANNEL_TWO] = TCNT1; //Save the length of last pulse
 						flagsUI8 |= FLAGS_CH_TWO_RECV; //Mark that we received a new pulse (for sync)
+						//break; //Some weird edge case can happen to make signals jump, think this happens when an int fires while we're in here, not convinced this fixes it yet...
 					}
 				}
 				break;
@@ -110,7 +118,7 @@ void clockSync(void){ //Sync clock to receiver, assuming first couple of pulses 
 	do{ //Binary search over 7 bits of OSCCAL, bit 7 is high range bit
 		OSCCAL = trialValueUI8 + stepValueUI8;
 		waitNextPulse();
-		if(lastPulseValI16A[CHANNEL_ONE] < PWM_MIDDLE)
+		if(lastPulseValI16A[CHANNEL_ONE] < PWM_SYNC)
 			trialValueUI8 += stepValueUI8;
 		stepValueUI8 >>= 1;
 	}while(stepValueUI8);
@@ -118,7 +126,7 @@ void clockSync(void){ //Sync clock to receiver, assuming first couple of pulses 
 	for(tmpTrialValueUI8 = trialValueUI8 - 1; tmpTrialValueUI8 <= trialValueUI8 + 1; tmpTrialValueUI8++){ //Local search to identify closest match
 		OSCCAL = tmpTrialValueUI8;
 		waitNextPulse();
-		curDevI16 = abs(lastPulseValI16A[CHANNEL_ONE] - PWM_MIDDLE);
+		curDevI16 = abs(lastPulseValI16A[CHANNEL_ONE] - PWM_SYNC);
 		if(curDevI16 < minDevI16){
 			minDevI16 = curDevI16;
 			minTrialValueUI8 = tmpTrialValueUI8;
@@ -138,7 +146,7 @@ void init(void){
 	lastPulseValI16A[CHANNEL_ONE] = lastPulseValI16A[CHANNEL_TWO] = PWM_MIDDLE; //Clear last pules length values initially
 	mixPulseValI16A[CHANNEL_ONE] = mixPulseValI16A[CHANNEL_TWO] = PWM_MIDDLE; //Set initial mixing output values
 	inputStateUI8A[CHANNEL_ONE] = inputStateUI8A[CHANNEL_TWO] = STATE_IDLE; //Set start states to idle
-	flagsUI8 = 0; //Blank initial flags
+	flagsUI8 = FLAGS_NONE; //Blank initial flags
 	
 	TIMSK |= _BV(OCIE0A) | _BV(TOIE0) | _BV(OCIE1A) | _BV(TOIE1); //TMR0/1 Interrupt on compare match and overflow
 	

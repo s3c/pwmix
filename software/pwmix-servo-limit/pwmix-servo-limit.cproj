@@ -12,48 +12,32 @@
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>pwmix</AssemblyName>
-    <Name>pwmix</Name>
-    <RootNamespace>pwmix</RootNamespace>
+    <AssemblyName>pwmix-servo-limit</AssemblyName>
+    <Name>pwmix-servo-limit</Name>
+    <RootNamespace>pwmix-servo-limit</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
     <ProgFlashFromRam>true</ProgFlashFromRam>
-    <RamSnippetAddress>0x20000000</RamSnippetAddress>
+    <RamSnippetAddress />
     <UncachedRange />
     <preserveEEPROM>true</preserveEEPROM>
-    <OverrideVtorValue>exception_table</OverrideVtorValue>
+    <OverrideVtorValue />
     <BootSegment>2</BootSegment>
     <eraseonlaunchrule>0</eraseonlaunchrule>
     <AsfFrameworkConfig>
       <framework-data xmlns="">
-        <options />
-        <configurations />
-        <files />
-        <documentation help="" />
-        <offline-documentation help="" />
-        <dependencies>
-          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.31.0" />
-        </dependencies>
-      </framework-data>
+  <options />
+  <configurations />
+  <files />
+  <documentation help="" />
+  <offline-documentation help="" />
+  <dependencies>
+    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.31.0" />
+  </dependencies>
+</framework-data>
     </AsfFrameworkConfig>
-    <avrtool>com.atmel.avrdbg.tool.avrdragon</avrtool>
-    <avrtoolserialnumber>00A200034376</avrtoolserialnumber>
-    <avrdeviceexpectedsignature>0x1E930B</avrdeviceexpectedsignature>
-    <com_atmel_avrdbg_tool_avrdragon>
-      <ToolOptions>
-        <InterfaceProperties>
-          <IspClock>2000000</IspClock>
-        </InterfaceProperties>
-        <InterfaceName>ISP</InterfaceName>
-      </ToolOptions>
-      <ToolType>com.atmel.avrdbg.tool.avrdragon</ToolType>
-      <ToolNumber>00A200034376</ToolNumber>
-      <ToolName>AVR Dragon</ToolName>
-    </com_atmel_avrdbg_tool_avrdragon>
-    <avrtoolinterface>ISP</avrtoolinterface>
-    <avrtoolinterfaceclock>2000000</avrtoolinterfaceclock>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
